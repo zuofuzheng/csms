@@ -30,6 +30,7 @@ export default {
     }
   },
   methods: {
+
     xfunction: function (event) {
       switch (event) {
         case 'NEWORDER':
@@ -39,13 +40,12 @@ export default {
           this.payment === false ? this.$store.commit('changePopShow','paymentShow') : null;
           break;
         case 'HANGUP':
-          
+          this.$store.commit('currentOrderToBackstage', {state: 'watingSettlement'});
           break;
       }
       if (event === 'SETTLE') {
         console.log(1);
-        
-      } 
+      }
     }
   }
 }

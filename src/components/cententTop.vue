@@ -7,37 +7,42 @@
 <template>
   <div class="col-lg-12">
     <template v-for="k in childrenList">
-      <manage-top-p v-if="k.element === 'p'"
-        :class="k.class"
-        :type="k.type"
-        :data="k.text"
+      <manage-top-p v-if="element === 'p'"
+        :class="pclass"
+        :type="type"
+        :data="k"
       ></manage-top-p>
     </template>
   </div>
 </template>
 
 <script>
+import store from '../store/store'
 import dynamicP from '@/components/dynamicP'
 
 export default {
   name: 'manageTop',
   data () {
     return {
-      text: 'is a top',
-      childrenList: [
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: '客户ID'},
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: '00001'},
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: '客户类型'},
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: '会员'},
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: '级别'},
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: 'v1'},
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: '积分'},
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: '50'},
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: '1'},
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: '1'},
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: '1'},
-        {element: 'p', type: 'text', class: 'col-lg-1 h-40 fz120', text: '1'} 
-      ]
+      element: 'p',
+      type: 'text',
+      pclass: 'col-lg-1 h-40 fz120',
+    }
+  },
+  store,
+  computed: {
+    childrenList: function () {
+      var data = [];
+      if (this.$store.state.collectMoneyData.rbState === 'reception') {
+        data = ['订单编号', null, '客户ID', null, '客户类型', null, '级别', null, '积分', null, 'time', null];
+        data[1] = this.$store.state.currentOrder.orderNumber;
+        data[3] = this.$store.state.currentOrder.clientId;
+        data[5] = this.$store.state.currentOrder.clientId !== 10000000?'会员': '临时客户';
+        data[7] = this.$store.state.currentClientDatas.grade;
+        data[9] = this.$store.state.currentClientDatas.credits;
+        data[11] = this.$store.state.currentOrder.foundTime;
+      }
+      return data;
     }
   },
   components: {

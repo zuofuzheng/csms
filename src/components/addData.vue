@@ -32,21 +32,40 @@ export default {
     //查询函数
     barcodeQuery: function (event) {
       //查询商品条码信息
-      console.log(event)
-      return {
-        商品条码: '010005',
-        商品代码: '456123',
-        商品名称: '萝卜',
-        商品类别: '蔬菜',
-        生产日期: '2018-08-01',
-        过期日期: '2019-08-01',
-        商品描述: 'null',
-        商品备注: 'null',
-        商品原价: 5,
-        折扣价格: 4.5,
-        商品数量: 2,
-        商品单位: 'kg'
-      };
+      console.log(event);
+      var data = null;
+      if (event === '123456') {
+        data = {
+          商品条码: '010005',
+          商品代码: '456777',
+          商品名称: '萝卜',
+          商品类别: '蔬菜',
+          生产日期: '2018-08-01',
+          过期日期: '2019-08-01',
+          商品描述: 'null',
+          商品备注: 'null',
+          商品原价: 5,
+          折扣价格: 4.5,
+          商品数量: 2,
+          商品单位: 'kg'
+        }
+      }else if(event === '1111123456789') {
+        data = {
+          商品条码: '1232521225217',
+          商品代码: '456888',
+          商品名称: '可乐',
+          商品类别: '饮料',
+          生产日期: '2018-08-01',
+          过期日期: '2019-08-01',
+          商品描述: 'null',
+          商品备注: 'null',
+          商品原价: 3,
+          折扣价格: 2.8,
+          商品数量: 2,
+          商品单位: '瓶'
+        }
+      }
+      return data;
     },
     clientQuery: function () {
       //查询客户信息
@@ -95,6 +114,8 @@ export default {
             datas = this.barcodeQuery(inputValue);
             if (datas !== null) {
               this.addtoOrder(datas);
+              inputElement.value = null;
+              inputElement.focus();
             }
           }
           break;
@@ -107,7 +128,7 @@ export default {
           if (inputValue.length == 12) {
             datas = this.orderQuery();
           }
-          break; 
+          break;
         default:
 
           break;
@@ -115,7 +136,7 @@ export default {
       if (datas !== null) {
         var dataShow = document.getElementById('getDataShow');
         var html = '';
-        console.log(datas);
+        //console.log(datas);
         for (var xy in datas) {
           html += '<span class="col-xs-3">'+xy+'</span>'+'<span class="col-xs-3">'+datas[xy]+'</span>';
         }

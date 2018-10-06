@@ -1,11 +1,11 @@
 <template>
-  <div id="newOrder" @mousemove="showfocus()">
+  <div id="newOrder">
     <div v-show="!show">
       <button class="col-xs-6 lishi" @click="foundOrder('temporary')"></button>
       <button class="col-xs-6 vip" @click="foundOrder('member')"></button>
-    </div> 
+    </div>
     <div v-show="show">
-      <input type="text" name="inputClientId" autofocus @input="queryClientIdF()">
+      <input type="text" name="inputClientId" @input="queryClientIdF()">
       <p>请输入客户ID</p>
       <button name="affirmNewOrder" class="inputId-btn" @click="affirmInput()" disabled>确定</button>
       <button class="inputId-btn" @click="closeInput()">重新输入</button>
@@ -46,21 +46,24 @@ export default {
         this.clientMessge = clientMessge;
         console.log(this.clientMessge);
         affirmBtn.disabled = false;
+        affirmBtn.focus();
       }else {
         affirmBtn.disabled===false ? affirmBtn.disabled=true: null;
       }
-      
     },
     //向后台系统申请一个订单号
     applyOrder: function () {
         return 1809300101010001;
+    },
+    setfocus: function () {
+      document.getElementsByName('inputClientId')[0].focus();
+      console.log(document.activeElement);
     },
     //创建订单
     foundOrder: function (event) {
       //检查当前用户订单是否存在，若存在则将当前用户存入后台
       var current = this.$store.state.currentOrder;
       if (current.datas.length !== 0) {
-        
       }
       //依据选项来创建用户订单
       var order = null;
@@ -70,18 +73,23 @@ export default {
           order = {
             orderNumber: this.applyOrder(),
             clientId: '00000000',
+            foundTime: '18-09-24||17:28:10',
+            number: 3,
+            money: 50,
             datas: []
           }
           order !== null ? this.$store.commit('changeCurrentOrder', {instructStr: 'REPLACE', currentOrder: order}):null;
           break;
         case 'member':
           this.show = true;
+          setTimeout("document.getElementsByName('inputClientId')[0].focus()", 50);
           break;
-      } 
+      }
     },
     //清空输入框重新输入
     closeInput: function () {
-      document.getElementsByName('inputClientId')[0].value = null;
+      var inputElement = document.getElementsByName('inputClientId')[0];
+      inputElement.value = null;
       inputElement.focus();
     },
     //确认输入，依据客户信息创建订单
@@ -100,10 +108,8 @@ export default {
       document.getElementsByName('inputClientId')[0].value = null;
       document.getElementsByName('inputClientId')[0].removeAttribute('autofocus');
       this.$store.commit('changePopShow', 'newOrderShow');
+      this.show2 = false;
       this.show = false;
-    },
-    showfocus: function () {
-      console.log(document.activeElement);
     }
   }
 }

@@ -97,31 +97,67 @@ var state = {
     newOrderShow: false,
     paymentShow: false,
     delOrderShow: false,
-    addDataShow: false
+    addDataShow: false,
+    loginShow: false,
+    lookShow: false
   },
   operateCache: {subjectTable: [], orderHandling: []},
-  orderList: [
-    {orderNumber: 12345678, foundTime: '2018-09-24', clientId: 12312312, number: 12, money: 116, hangupTime: '2018-09-24', state: 'G', remark: '' },
-    {orderNumber: 12349876, foundTime: '2018-09-24', clientId: 12315678, number: 7, money: 89, hangupTime: '2018-09-24', state: 'G', remark: '' }
+  orderList: [//后台订单数据
+    {orderNumber: 12345678, foundTime: '2018-09-24 13:15:21', clientId: 12312312, number: 12, money: 116, hangupTime: '2018-09-24 13:15:21', state: 'G', remark: '' },
+    {orderNumber: 12349876, foundTime: '2018-09-24 13:15:21', clientId: 12315678, number: 7, money: 89, hangupTime: '2018-09-24 13:15:21', state: 'G', remark: '' }
   ],
-  currentOrder: {
-    orderNumber: 12345678,
+  currentOrder: {//当前订单数据
+    orderNumber: 12348888,
     clientId: 12312312,
+    foundTime: '18-09-24 16:25:15',
+    number: 3,
+    money: 50,
     datas: [
       {barCode: '010001', commodityNumber: 456123, commodityName: '萝卜', category: '蔬菜', dateProduced: '2018-08-01', dateOverdue: '2019-08-01', describe: '', remark: '', originalP: 5, settlementP: 4.5, weight: 2, unit: 'kg'},
       {barCode: '010002', commodityNumber: 456555, commodityName: '白菜', category: '蔬菜', dateProduced: '2018-08-01', dateOverdue: '2019-08-01', describe: '', remark: '', originalP: 3, settlementP: 2.5, weight: 5, unit: 'kg'},
       {barCode: '010003', commodityNumber: 456454, commodityName: '土豆', category: '蔬菜', dateProduced: '2018-08-01', dateOverdue: '2019-08-01', describe: '', remark: '', originalP: 6, settlementP: 5.5, weight: 1, unit: 'kg'}
     ]
+  },
+  currentClientDatas: {
+    clientId: 12312312,
+    grade: 'V1',
+    credits: 50,
+    registerTime: '2018-09-20',
+    effectiveTime: '2020-09-20',
+    weixin: null,
+    phone: 13522521522,
+    address: null,
+    nickname: '大包子'
+  },
+  caches: [//操作缓存
+    {change: null, origin: null, data: {}},
+    {change: null, origin: null, data: {}},
+    {change: null, origin: null, data: {}},
+    {change: null, origin: null, data: {}},
+    {change: null, origin: null, data: {}},
+    {change: null, origin: null, data: {}},
+    {change: null, origin: null, data: {}},
+    {change: null, origin: null, data: {}},
+    {change: null, origin: null, data: {}},
+    {change: null, origin: null, data: {}},
+    {change: null, origin: null, data: {}},
+    {change: null, origin: null, data: {}}
+  ],
+  log: [//日志
+    {user: null, change: null, dataMark: null, description: null},
+    {user: null, change: null, dataMark: null, description: null},
+    {user: null, change: null, dataMark: null, description: null}
+  ],
+  user: {
+    userName: null,
+    pck: null
   }
 }
 const mutations = {
-  change (state, name, datanew) {
-    state[name] = datanew;
-  },
   changeCpt (state, ndata) {
-    if(ndata.name !== 'ALL'){
+    if (ndata.name !== 'ALL') {
       state.moduleData.cpt[ndata.name] = ndata.data;
-    } 
+    }
   },
   changecCurrentM (state, data) {
     state.moduleData.cpt[state.moduleData.currentM] = 'navigationClassify';
@@ -146,46 +182,36 @@ const mutations = {
     }
   },
   changePopShow (state, data) {
-    var fx = function (str) {
-      state.popShow[str]===true?state.popShow[str]=false:state.popShow[str]=true;
+    if (data in state.popShow) {
+      state.popShow[data]===true?state.popShow[data]=false:state.popShow[data]=true;
+    }else {
+      console.log('changePopShow data is not in popshow or data is not string');
     }
-    switch (data) {
-      case 'newOrderShow':
-        fx('newOrderShow');
-        break;
-      case 'paymentShow':
-        fx('paymentShow');
-         break;
-      case 'delOrderShow':
-        fx('delOrderShow');
-        break;
-      case 'addDataShow':
-        fx('addDataShow');
-        break;
-    } 
   },
   changeCurrentOrder (state, data) {
-    //console.log(data);
     if (data.instructStr) {
       switch (data.instructStr) {
         case 'ADD':
           if (data.datas.barCode.length === 6) {
             var exist = false;
             for (var i = 0; i < state.currentOrder.datas.length; i++) {
-              if (state.currentOrder.datas[i].barCode === data.datas.barCode) {
-                exist = true;
-              }
+              state.currentOrder.datas[i].barCode === data.datas.barCode ? exist = true : null;
             }
             !exist ? state.currentOrder.datas.push(data.datas) : console.log('err');
           }else if (data.datas.barCode.length === 13) {
-            state.currentOrder.datas.push(data.datas);
+            var exist = false;
+            for (var i = 0; i < state.currentOrder.datas.length; i++) {
+              state.currentOrder.datas[i].barCode === data.datas.barCode ? exist = true : null;
+              exist ? state.currentOrder.datas[i].weight += 1 : null;
+            }
+            !exist ? state.currentOrder.datas.push(data.datas) : null;
           }
           break;
         case 'ALT':
-          
+
           break;
         case 'DEL':
-          
+
           break;
         case 'REPLACE':
           state.currentOrder = data.currentOrder;
@@ -195,6 +221,7 @@ const mutations = {
 
           break;
       }
+      //console.log(state.currentOrder);
     }
   },
   changeAddDataAffiliation (state, data) {
@@ -231,7 +258,7 @@ const mutations = {
             break;
         }
       }
-    }  
+    }
   },
   changeOperateCache (state, data) {
     var st = null;
@@ -245,6 +272,44 @@ const mutations = {
     }
     var n = st.indexOf(data);
     n===-1?st.push(data):st.splice(n, 1);
+  },
+  //将当前订单挂到后台
+  currentOrderToBackstage (state, data) {
+    var order = {};
+    if (state.currentOrder.orderNumber !== null) {
+      order.orderNumber = state.currentOrder.orderNumber;
+      order.clientId = state.currentOrder.clientId;
+      order.foundTime = state.currentOrder.foundTime;
+      order.number = state.currentOrder.number;
+      order.money = state.currentOrder.money;
+      var nowDate = new Date;
+      order.hangupTime = nowDate;
+      order.remark = '';
+      order.state = data.state;
+      //？将数据发送到服务器，等待服务器返回执行结果
+      //若服务器返回执行成功则将压入后台
+      state.orderList.push(order);
+      //重置当前订单为待创建状态
+      state.currentOrder = {
+        orderNumber: null,
+        clientId: null,
+        foundTime: null,
+        money: 0,
+        number: 0,
+        datas: []
+      }
+    }
+  },
+  //更新user暂存数据
+  changeUser (state, data) {
+    if (data===null) {
+      state.user.userName = null;
+      state.user.pck = null;
+    }else {
+      data.userName.length>0 && typeof(data.userName)==='string'?state.user.userName=data.userName:error(()=>{console.log('data type err: userName')});
+      data.pck.length>0 ? state.user.pck = data.pck : error(()=>{console.log('data is undefined: pck')});
+    }
+    console.log(state.user.pck);
   }
 }
 export default new Vuex.Store({

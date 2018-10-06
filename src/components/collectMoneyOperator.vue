@@ -37,6 +37,7 @@ export default {
         case 'ADD':
           this.$store.commit('changePopShow', 'addDataShow');
           this.$store.commit('changeAddDataAffiliation', 'ADD');
+          setTimeout("document.getElementsByName('addData')[0].focus()", 50);
           break;
         case 'ALT':
           
@@ -67,6 +68,7 @@ export default {
         case 'QUERY':
           this.$store.commit('changePopShow', 'addDataShow');
           this.$store.commit('changeAddDataAffiliation', 'QUERY');
+          setTimeout("document.getElementsByName('addData')[0].focus()", 50);
           break;
         default:
           break;
