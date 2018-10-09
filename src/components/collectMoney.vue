@@ -5,13 +5,13 @@
 * @Last Modified time: 2018-09-15 12:39:29
 */
 <template>
-<div class="col-xs-12">
+<div class="col-xs-12 collcetMoney">
   <template>
     <operator-select></operator-select>
     <operator-function></operator-function>
     <operator-settlement></operator-settlement>
     <reception-backstage></reception-backstage>
-  </template> 
+  </template>
 </div>
 </template>
 
@@ -35,10 +35,16 @@ export default {
 }
 </script>
 
-<style scoped>
-div {
+<style>
+.collcetMoney {
   height: 960px;
   background-color: #a2a9af;
   box-sizing:border-box;
+}
+.disableBtn {
+  color: #6E6E6E !important;
+}
+.mouseIn {
+  background-color: #01DF01 !important;
 }
 </style>

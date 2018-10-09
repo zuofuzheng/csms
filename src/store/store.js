@@ -48,32 +48,7 @@ var state = {
     }
   },
   collectMoneyData: {
-    operator: {
-      of1: {id: 'addorder', show: true, text: '增', order: 'ADD'},
-      of2: {id: 'alterorder', show: true, text: '改', order: 'ALT'},
-      of3: {id: 'deleteorder', show: true, text: '删', order: 'DEL'},
-      of4: {id: 'clearorder', show: true, text: '清空', order: 'CLR'},
-      of5: {id: 'rollbackorder', show: true, text: '回退', order: 'RBK'},
-      of6: {id: 'findorder', show: true, text: '查找', order: 'QUERY'}
-    },
-    selectF: {
-      all: {id: 'all', text: '全选', order: 'ALL'},
-      allno: {id: 'allno', text: '不选', order: 'ALLNO'},
-      odd: {id: 'odd', text: '奇数', order: 'ODD'},
-      even: {id: 'even', text: '偶数', order: 'EVEN'},
-      single: {id: 'against', text: '反选', order: 'AGAINST'},
-      multiple: {id: 'only/multiple', text: '多选', order: 'ONLY'}
-    },
     selectState: false,
-    SettlementF: {
-      newOrder: {id: 'newOrder', text: '新建', order: 'NEWORDER'},
-      settle: {id: 'settle', text: '结账', order: 'SETTLE'},
-      hangup: {id: 'hangup', text: '挂单', order: 'HANGUP'}
-    },
-    receptionBackstage: {
-      reception: {id: 'reception', text: '前台', order: 'RECEPTION'},
-      back: {id: 'back', text: '后台', order: 'BACK'},
-    },
     tableComponent: 'subjectTable',
     rbState: 'reception',
     addDataAffiliation: null
@@ -165,13 +140,6 @@ const mutations = {
   },
   changeSelectState (state, data) {
     state.collectMoneyData.selectState = data;
-    if (data === true) {
-      state.collectMoneyData.selectF.multiple.order = 'MUlTIPLE';
-      state.collectMoneyData.selectF.multiple.text = '单选';
-    }else{
-      state.collectMoneyData.selectF.multiple.order = 'ONLY';
-      state.collectMoneyData.selectF.multiple.text = '多选';
-    }
   },
   changeTableComponent (state, data) {
     state.collectMoneyData.tableComponent = data;

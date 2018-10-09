@@ -1,6 +1,12 @@
 <template>
   <div id="selects">
-    <button v-for="k in rb" class="h-40 col-xs-12" @click="xfunction(k.order)">
+    <button v-for="k in rbs"
+      class="h-40 col-xs-12"
+      :disabled="disableStatus(k)"
+      @click="xfunction(k)"
+      @mouseout="cutClass('mouseIn')"
+      @mouseover="cutClass('mouseIn')"
+    >
       {{k.text}}
     </button>
   </div>
@@ -8,35 +14,55 @@
 
 <script>
 import store from '../store/store'
+import commonality from '../assets/commonalityFn.js'
 
 export default {
   name: 'receptionBackstage',
   data () {
     return {
-
+      rbs: {
+        reception: {id: 'reception', text: '前台', order: 'RECEPTION', disable: true},
+        back: {id: 'back', text: '后台', order: 'BACK', disable: false}
+      }
     }
   },
   store,
   computed: {
     rb: function () {
-      return this.$store.state.collectMoneyData.receptionBackstage;
+      return this.$store.state.collectMoneyData.rbState;
+    },
+    disable: function () {
+      return this.$store.state.user.pck ? false : true;
     }
   },
   props:[],
   methods: {
-    toOrderHandling: function () {
+    cutClass: function (class1, class2) {
+      class2 ? commonality.cutClass(event, class1, class2) : commonality.cutClass(event, class1);
+    },
+    disableStatus: function (event) {
+      return this.disable ? this.disable : event.disable;
+    },
+    changerbs: function () {
+      this.rbs.back.disable = !this.rbs.back.disable;
+      this.rbs.reception.disable = !this.rbs.reception.disable;
+    },
+    toOrderHandling: function (event) {
       this.$store.commit('changeTableComponent', 'orderHandling');
+      this.changerbs();
     },
-    toSubjectTable: function () {
+    toSubjectTable: function (event) {
       this.$store.commit('changeTableComponent', 'subjectTable');
+      this.changerbs();
     },
-    xfunction: function (event) {
-      switch (event) {
+    xfunction: function (els) {
+      commonality.cutClass(event, 'mouseIn');
+      switch (els.order) {
         case 'BACK':
-          this.toOrderHandling();
+          this.toOrderHandling(event);
           break;
         case 'RECEPTION':
-          this.toSubjectTable();
+          this.toSubjectTable(event);
           break;
         default:
           break;
@@ -63,5 +89,8 @@ div {
   box-sizing:border-box;
   height: 180px;
   margin: 10px;
+}
+button:disabled {
+  color: #6E6E6E;
 }
 </style>
