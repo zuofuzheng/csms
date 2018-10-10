@@ -119,7 +119,7 @@ button {
   line-height: 50%;
   border: 2px solid #6E6E6E;
   outline:none;
-  color: red;
+  color: #014955;
   font-size: 120%;
   background-color: rgba(0,0,0,0);
   padding: 0;

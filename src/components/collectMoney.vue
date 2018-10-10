@@ -41,10 +41,10 @@ export default {
   background-color: #a2a9af;
   box-sizing:border-box;
 }
-.disableBtn {
+button:disabled {
   color: #6E6E6E !important;
 }
 .mouseIn {
-  background-color: #01DF01 !important;
+  background-color: #3b9a9c !important;
 }
 </style>

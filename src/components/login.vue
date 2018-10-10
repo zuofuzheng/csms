@@ -5,11 +5,11 @@
   	  <label for="username" class="col-xs-12">请输入用户名</label>
   	  <input type="text" name="username" class="col-xs-8 col-xs-offset-2">
   	  <label for="passwd" class="col-xs-12">请输入密码</label>
-  	  <input type="text" name="passwd" class="col-xs-8 col-xs-offset-2">
+  	  <input type="password" name="passwd" class="col-xs-8 col-xs-offset-2">
   	  <p id="login-prompt" class="col-xs-12">提示信息</p>
-  	  <button id="loginbtn" class="col-xs-2 col-xs-offset-5" @click="tologin()">login</button>
+  	  <button id="loginbtn" class="button button-raised button-primary button-pill" @click="tologin()">login</button>
   	</form>
-  	<button class="login-quit" @click="quit()">x</button>
+  	<button class="login-quit" @click="quit()"><i class="fa fa-close"></i></button>
   </div>
 </template>
 
@@ -56,11 +56,11 @@ export default {
 <style scoped>
 div {
   position: absolute;
-  top: 200px;
+  top: 270px;
   left: 760px;
-  height: 600px;
+  height: 460px;
   width: 400px;
-  background-color: blue;
+  background-color: #3b9a9c;
   border-radius: 5px;
   font-size: 120%;
 }
@@ -68,6 +68,14 @@ input {
   border-radius: 16px;
   margin-top: 14px;
   margin-bottom: 14px;
+  font-size: 120%;
+  border: 1px solid #484848;
+}
+input:focus {
+  outline: none;
+  margin-top: 13px;
+  margin-bottom: 13px;
+  border: 2px solid #484848;
 }
 h1 {
   margin: 42px 0;
@@ -77,5 +85,6 @@ h1 {
   top: 10px;
   right: 10px;
   border: none;
+  background-color: rgba(0,0,0,0);
 }
 </style>

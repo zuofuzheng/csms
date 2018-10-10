@@ -21,8 +21,11 @@
         </tr>
       </thead>
       <tbody class="table-striped">
-        <tr v-for="k in trList" :key="k.commodityNumber" @click.stop="checkedthis(k, 1)">
-          <td><input type="checkbox" :name="tableList" @click.stop="checkedthis(k, 0)"></td>
+        <tr v-for="k in trList" :key="k.commodityNumber" @click.stop="checkedthis(k)">
+          <td>
+            <input type="checkbox" style="display: none" class="magic-checkbox" :name="tableList">
+            <label for="tableList"></label>
+          </td>
           <td>{{computeIndex(k)+1}}</td>
           <td>{{k.barCode}}</td>
           <td>{{k.commodityName}}</td>
@@ -75,37 +78,42 @@ export default {
       });
       return n;
     },
-    checkedthis: function (event, s) {
+    checkedthis: function (objz) {
       //点击选中或取消该行选择
       //获取table中的input选项对象数组
       var f = document.getElementsByName(this.tableList);
       //计算选中项在当前数组的位置
-      var n = this.computeIndex(event);
+      var n = this.computeIndex(objz);
+      console.log(objz);
       //判断是否为单项选择限制，若为单选则先清除table中的所有选中项
       if (this.$store.state.collectMoneyData.selectState === true) {
         for (var i = 0; i < f.length; i++) {
           f[i].checked = false;
         }
         var list = this.$store.state.operateCache.subjectTable;
-        for (var i = 0; i < list.length; i++) {
-          this.$store.commit('changeOperateCache', list[i]);
+        for (var j = 0; j < list.length; j++) {
+          this.$store.commit('changeOperateCache', list[j]);
         }
-        s===0 ? f[n].checked = true : null;
-      }
-      //执行选中或取消选中
-      if (f[n].checked === false || f[n].checked === undefined) {
-        s === 1? f[n].checked = true: null;
-        this.$store.commit('changeOperateCache', event.barCode);
+        //f[n].checked = true;
       }else {
-        s === 1? f[n].checked = false: null;
-        this.$store.commit('changeOperateCache', event.barCode);
-      } 
+        //执行选中或取消选中
+        /*
+        if (f[n].checked === false || f[n].checked === undefined) {
+          f[n].checked = s===1 ? true : false;
+          this.$store.commit('changeOperateCache', objz.barCode);
+        }else {
+          f[n].checked = s===1 ? true : false;
+          this.$store.commit('changeOperateCache', objz.barCode);
+        }*/
+      }
+      f[n].checked = f[n].checked === true ? false : true;
+      this.$store.commit('changeOperateCache', objz.barCode);
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 td {
   text-overflow:ellipsis;
 }

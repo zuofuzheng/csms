@@ -4,17 +4,17 @@
   	  <label for="setLookPasswd" class="col-xs-12">请设置解锁密码</label>
   	  <input type="text" name="setLookPasswd" class="col-xs-6 col-xs-offset-3">
   	  <P class="col-xs-12">提示：解锁密码长度为4~16位数字或字母组成，区分大小写</P>
-  	  <button class="col-xs-2 col-xs-offset-5" @click="setPasswd()">Look</button>
-  	  <button calss="quit-look" @click="quitLook()">x</button>
+  	  <button class="col-xs-2 col-xs-offset-5" @click="setPasswd()"><i class="fa fa-5x fa-unlock-alt"></i></button>
   	</div>
   	<div v-if="looking">
-  	  <button @click="toUntie()">Looking</button>
+  	  <button class="btn-center" @click="toUntie()"><i class="fa fa-5x fa-lock"></i></button>
   	</div>
   	<div v-if="untie">
   	  <label for="untieLookPasswd" class="col-xs-12">请输入解锁密码</label>
   	  <input type="text" name="untieLookPasswd" class="col-xs-6 col-xs-offset-3">
-  	  <button class="col-xs-2 col-xs-offset-5" @click="untieLook()">Untie</button>
+  	  <button class="col-xs-2 col-xs-offset-5" @click="untieLook()"><i class="fa fa-5x fa-unlock-alt"></i></button>
   	</div>
+    <button v-if="!lookState" class="quitlook" @click="quitLook()"><i class="fa fa-2x fa-close"></i></button>
   </div>
 </template>
 
@@ -73,15 +73,28 @@ export default {
   width: 500px;
   height: 500px;
   border: 1px solid red;
-  background-color: blue;
+  background-color: #3b9a9c;
   border-radius: 5px;
 }
 input {
   border-radius: 16px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
-.quit-look {
+label {
+  margin-top: 50px;
+}
+button {
+  background-color: rgba(0,0,0,0);
+}
+.quitlook {
   position: absolute;
   top: 10px;
-  right: 0px;
+  right: 10px;
+  border: none;
+  background-color: rgba(0,0,0,0);
+}
+.btn-center {
+  margin-top: 40%;
 }
 </style>

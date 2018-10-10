@@ -71,15 +71,18 @@ export default {
         case 'CLR':
           var table = null;
           var datas = this.$store.state.collectMoneyData;
-          datas.tableComponent === 'subjectTable' ? table = document.getElementsByName('tableList') : null;
-          datas.tableComponent === 'orderHandling' ? table = document.getElementsByName('backstageTable') : null;
+          table = datas.tableComponent === 'subjectTable' ? document.getElementsByName('tableList') : document.getElementsByName('backstageTable');
           //执行全选
           for (var i = 0; i < table.length; i++) {
+            console.log(table[i].checked);
             table[i].checked === false ? table[i].click() : null;
+            console.log(table[i]);
+            console.log(table[i].checked);
           }
           //弹出警告框
           //执行删除
           this.$store.commit('deletCurrentOrder', this.rbState);
+          console.log(this.$store.state.operateCache.orderHandling);
           break;
         case 'RBK':
           //服务器端数据状态{数据现在状态，缓存上一次，上上一次，上上上一次的更新状态}

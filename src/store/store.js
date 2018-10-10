@@ -202,7 +202,7 @@ const mutations = {
       var rest = dataz.slice((to || from) + 1 || dataz.length);
       dataz.length = from < 0 ? dataz.length + from : from;
       dataz.push.apply(dataz, rest);
-      console.log(dataz);
+      //console.log(dataz);
     };
     switch (data) {
       case 'reception':
@@ -215,18 +215,21 @@ const mutations = {
         console.log(list);
         break;
     }
+    //执行删除
     for (var i = 0; i < list.length; i++) {
       for (var j = 0; j < dataz.length; j++) {
         switch (data) {
           case 'reception':
-            dataz[j].barCode===list[i]?removeDatas(j):console.log('on find!');
+            dataz[j].barCode===list[i] ? removeDatas(j) : console.log('on find!');
             break;
           case 'backstage':
-            dataz[j].orderNumber===list[i]?removeDatas(j):console.log('on find!');
+            dataz[j].orderNumber===list[i] ? removeDatas(j) : console.log('on find!');
             break;
         }
       }
     }
+    //执行清空后清空选中暂存状态
+    data==='reception' ? state.operateCache.subjectTable = [] : state.operateCache.orderHandling = [];
   },
   changeOperateCache (state, data) {
     var st = null;
@@ -239,7 +242,7 @@ const mutations = {
         break;
     }
     var n = st.indexOf(data);
-    n===-1?st.push(data):st.splice(n, 1);
+    n > -1 ? st.splice(n, 1) : st.push(data);
   },
   //将当前订单挂到后台
   currentOrderToBackstage (state, data) {

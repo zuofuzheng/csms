@@ -1,8 +1,14 @@
 <template>
-  <div id="users">
-    <button :disabled="loginX" class="buttonbg1" id="login" @click="login()"></button>
-    <button :disabled="lookX" class="buttonbg2" id="userlook" @click="look()"></button>
-    <button :disabled="quitX" class="buttonbg3" id="logdown" @click="quit()"></button>
+  <div id="users" class="col-xs-12">
+    <button :disabled="loginX" class="col-xs-4 button button-large button-plain button-borderless" id="login" @click="login()">
+      <i class="fa fa-lg" :class="{'btn-color-green': loginX,'fa-user-plus': !loginX, 'fa-user': loginX}"></i>
+    </button>
+    <button :disabled="lookX" class="col-xs-4 button button-large button-plain button-borderless" id="userlook" @click="look()">
+      <i class="fa fa-lg fa-lock" :class="{'btn-color-yellow': !lookX}"></i>
+    </button>
+    <button :disabled="quitX" class="col-xs-4 button button-large button-plain button-borderless" id="logdown" @click="quit()">
+      <i class="fa fa-lg fa-power-off" :class="{'btn-color-red': !quitX}"></i>
+    </button>
   </div>
 </template>
 
@@ -57,28 +63,24 @@ export default {
 }
 </script>
 
-<style scoped="">
+<style scoped>
 div {
   background-color: #3b9a9c;
 }
 button {
-  display: inline-block;
-  height: 40px;
-  width: 40px;
-  border-radius: 5px;
-  margin: 10px 25px;
-  border: none;
-  outline: none;
-  background-size: 40px;
-  background-color: rgba(0,0,0,0);
+  height: 60px !important;
 }
-.buttonbg1 {
-  background-image: url(../../static/img/login.png);
+button:disabled {
+  border: none !important;
+  background-color: rgba(0,0,0,0) !important;
 }
-.buttonbg2 {
-  background-image: url(../../static/img/userlook.png);
+.btn-color-red {
+  color: #D25565;
 }
-.buttonbg3 {
-  background-image: url(../../static/img/logdown.png);
+.btn-color-green {
+  color: #014955;
+}
+.btn-color-yellow {
+  color: #bc8420;
 }
 </style>

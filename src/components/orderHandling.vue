@@ -18,7 +18,10 @@
       </thead>
       <tbody>
         <tr v-for="k in trList" :key='k.orderNumber' @click="checkedthis(k)">
-          <td><input type="checkbox" :name="tableName" @click="checkedthis(k)"></td>
+          <td>
+            <input type="checkbox" style="display: none" class="magic-checkbox" :name="tableName">
+            <label for="backstageTable"></label>
+          </td>
           <td>{{computeIndex(k)+1}}</td>
           <td>{{k.orderNumber}}</td>
           <td>{{k.foundTime}}</td>
@@ -60,26 +63,25 @@ export default {
       });
       return n;
     },
-    checkedthis: function (event) {
+    checkedthis: function (objz) {
       //点击选中或取消该行选择
       //获取table中的input选项对象数组
       var f = document.getElementsByName(this.tableName);
       //计算选中项在当前数组的位置
-      var n = this.computeIndex(event);
+      var n = this.computeIndex(objz);
+      //console.log(objz);
       //判断是否为单项选择限制，若为单选则先清除table中的所有选中项
       if (this.$store.state.collectMoneyData.selectState === true) {
         for (var i = 0; i < f.length; i++) {
           f[i].checked = false;
         }
+        var list = this.$store.state.operateCache.orderHandling;
+        for (var j = 0; j < list.length; j++) {
+          this.$store.commit('changeOperateCache', list[j]);
+        }
       }
-      //执行选中或取消选中
-      if (f[n].checked === false || f[n].checked === undefined) {
-        f[n].checked = true;
-        this.$store.commit('changeOperateCache', event.orderNumber);
-      }else{
-        f[n].checked = false;
-        this.$store.commit('changeOperateCache', event.orderNumber);
-      } 
+      f[n].checked = f[n].checked === true ? false : true;
+      this.$store.commit('changeOperateCache', objz.orderNumber);
     }
   }
 }
