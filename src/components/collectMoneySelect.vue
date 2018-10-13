@@ -70,38 +70,38 @@ export default {
       switch (event) {
         case 'ALL'://全选
           for (var i = 0; i < table.length; i++) {
-            table[i].checked === false ? table[i].click() : null;
+            table[i].checked === false ? table[i].parentNode.click() : null;
           }
           break;
         case 'ALLNO'://全不选
           for (var i = 0; i < table.length; i++) {
-            table[i].checked === true ? table[i].click() : null;
+            table[i].checked === true ? table[i].parentNode.click() : null;
           }
           break;
         case 'ODD'://奇数选择
           for (var i = 0; i < table.length; i=i+2) {
-            table[i].checked === true ? null : table[i].click();
+            table[i].checked === true ? null : table[i].parentNode.click();
           }
           for (var j = 1; j < table.length; j=j+2) {
-            table[j].checked === false ? null : table[j].click();
+            table[j].checked === false ? null : table[j].parentNode.click();
           }
           break;
         case 'EVEN'://偶数选择
           for (var i = 1; i < table.length; i=i+2) {
-            table[i].checked === true ? null : table[i].click();
+            table[i].checked === true ? null : table[i].parentNode.click();
           }
           for (var j = 0; j < table.length; j=j+2) {
-            table[j].checked === false ? null : table[j].click();
+            table[j].checked === false ? null : table[j].parentNode.click();
           }
           break;
         case 'AGAINST'://反向选择
           for (var i = 0; i < table.length; i++) {
-            table[i].click();
+            table[i].parentNode.click();
           }
           break;
         case 'ONLY':
           for (var i = 1; i < table.length; i++) {
-            table[i].checked === false ? null : table[i].click();
+            table[i].checked === false ? null : table[i].parentNode.click();
           }
           break;
         default:

@@ -1,0 +1,20 @@
+/*
+*模拟订单数据
+ */
+{
+  "conmmoditys": [
+
+  ],
+  "orders": [
+
+  ],
+  "users": [
+
+  ],
+  "clients": [
+
+  ],
+  "pcks": [
+
+  ]
+}

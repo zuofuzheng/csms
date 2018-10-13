@@ -94,19 +94,8 @@ export default {
         for (var j = 0; j < list.length; j++) {
           this.$store.commit('changeOperateCache', list[j]);
         }
-        //f[n].checked = true;
-      }else {
-        //执行选中或取消选中
-        /*
-        if (f[n].checked === false || f[n].checked === undefined) {
-          f[n].checked = s===1 ? true : false;
-          this.$store.commit('changeOperateCache', objz.barCode);
-        }else {
-          f[n].checked = s===1 ? true : false;
-          this.$store.commit('changeOperateCache', objz.barCode);
-        }*/
-      }
-      f[n].checked = f[n].checked === true ? false : true;
+      };
+      f[n].checked = f[n].checked===true||f[n].checked===null ? false : true;
       this.$store.commit('changeOperateCache', objz.barCode);
     }
   }
